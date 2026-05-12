@@ -136,15 +136,14 @@ body {
 
 /* ===== HERO ===== */
 .hero {
-  min-height: 100vh;
   display: grid; grid-template-columns: 1fr 1fr;
-  padding-top: 64px;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  animation: fadeUp 0.7s ease both 0.1s;
 }
 
 .hero-left {
-  padding: 5rem 3rem 5rem 4rem;
   display: flex; flex-direction: column; justify-content: center;
-  animation: fadeUp 0.7s ease both 0.1s;
   background: var(--bg); transition: background 0.35s;
 }
 
@@ -202,10 +201,12 @@ body {
 /* Hero right panel */
 .hero-right {
   position: relative; background: var(--bg-dark);
+  border-radius: 16px; overflow: hidden;
   display: flex; flex-direction: column;
   justify-content: center; align-items: center;
-  padding: 6rem 2.5rem 3rem; gap: 2.5rem;
-  animation: fadeIn 0.9s ease both 0.3s; overflow: hidden;
+  padding: 3rem 2.5rem; gap: 2rem;
+  animation: fadeIn 0.9s ease both 0.3s;
+  min-height: 380px;
 }
 
 .hero-pattern {
@@ -268,7 +269,7 @@ body {
 main {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 5rem 4rem;
+  padding: 3rem 4rem;
 }
 
 /* ===== SECTION HEADER ===== */
@@ -291,7 +292,7 @@ main {
 
 /* ===== SECTIONS ===== */
 section {
-  margin-bottom: 5rem;
+  margin-bottom: 3rem;
   scroll-margin-top: 80px;
 }
 
@@ -458,8 +459,7 @@ footer a:hover { color: var(--accent-dark); }
   .nav-toggle { display: block; }
 
   .hero { grid-template-columns: 1fr; }
-  .hero-left { padding: 3rem 1.5rem 2.5rem; }
-  .hero-right { min-height: auto; padding: 3rem 1.5rem; }
+  .hero-right { min-height: 280px; padding: 2.5rem 1.5rem; }
 
   main { padding: 3rem 1.5rem; }
   footer { padding: 1.5rem; }
@@ -468,7 +468,6 @@ footer a:hover { color: var(--accent-dark); }
 
 @media (max-width: 600px) {
   .main-nav { padding: 0 1rem; }
-  .hero-left { padding: 2.5rem 1rem 2rem; }
   .hero-right { padding: 2rem 1rem; }
   main { padding: 2.5rem 1rem; }
   .skills-container { grid-template-columns: 1fr; }

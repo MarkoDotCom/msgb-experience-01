@@ -114,20 +114,20 @@ function App() {
     <>
       <Navbar name="Marco" subtitle="González" isDark={isDark} onToggleTheme={toggleTheme} />
 
-      <Hero
-        name="Marco"
-        nameAccent="González"
-        role="Senior Full Stack Developer"
-        tagline="6+ años diseñando y entregando soluciones de software en sectores automotriz, minería, logística y sustentabilidad. Arquitecturas de microservicios, integraciones empresariales y migraciones a producción."
-        email="msgb.labor@gmail.com"
-        linkedin="linkedin.com/in/msgb"
-        github="github.com/MarkoDotCom"
-        phone="(+56) 9 4092 0875"
-        location="Santiago, Chile"
-        stats={HERO_STATS}
-      />
-
       <main>
+        <Hero
+          name="Marco"
+          nameAccent="González"
+          role="Senior Full Stack Developer"
+          tagline="6+ años diseñando y entregando soluciones de software en sectores automotriz, minería, logística y sustentabilidad. Arquitecturas de microservicios, integraciones empresariales y migraciones a producción."
+          email="msgb.labor@gmail.com"
+          linkedin="linkedin.com/in/msgb"
+          github="github.com/MarkoDotCom"
+          phone="(+56) 9 4092 0875"
+          location="Santiago, Chile"
+          stats={HERO_STATS}
+        />
+
         <section id="about">
           <SectionHeader label="Perfil" title="Sobre" accent="mí" />
           <p className="about-text">

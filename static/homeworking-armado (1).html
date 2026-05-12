@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Armado de Muebles — Armo tu Mueble</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root, [data-theme="light"] {
+    --bg:        #F8F6F2;
+    --bg-2:      #FFFFFF;
+    --bg-3:      #EDE9E2;
+    --border:    #E2DDD6;
+    --border-2:  #D9D3C8;
+    --text-1:    #1A1612;
+    --text-2:    #2E2922;
+    --text-3:    #6B6258;
+    --text-4:    #9E9488;
+    --nav-bg:    rgba(248,246,242,0.93);
+    --card-bg:   #FFFFFF;
+    --steps-bg:  #FFFFFF;
+    --price-bg:  #F8F6F2;
+    --shadow:    0 2px 16px rgba(0,0,0,0.06);
+    --shadow-md: 0 8px 40px rgba(0,0,0,0.10);
+    --green-50:  #E8F5F0;
+    --green-100: #C5E8D8;
+    --green-400: #2AAF7A;
+    --green-500: #1D9E6F;
+    --green-600: #0F7A54;
+    --toggle-bg: #E2DDD6;
+    --toggle-knob: #2E2922;
+  }
+
+  [data-theme="dark"] {
+    --bg:        #111210;
+    --bg-2:      #1A1C18;
+    --bg-3:      #222420;
+    --border:    #2C2E29;
+    --border-2:  #363830;
+    --text-1:    #F0EDE6;
+    --text-2:    #D8D4CB;
+    --text-3:    #8A8880;
+    --text-4:    #5A5850;
+    --nav-bg:    rgba(17,18,16,0.93);
+    --card-bg:   #1A1C18;
+    --steps-bg:  #1A1C18;
+    --price-bg:  #1A1C18;
+    --shadow:    0 2px 16px rgba(0,0,0,0.3);
+    --shadow-md: 0 8px 40px rgba(0,0,0,0.4);
+    --green-50:  #0D2B1F;
+    --green-100: #133D2B;
+    --green-400: #2AAF7A;
+    --green-500: #2EC285;
+    --green-600: #4DD69A;
+    --toggle-bg: #2C2E29;
+    --toggle-knob: #F0EDE6;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--bg); color: var(--text-2);
+    font-size: 16px; line-height: 1.6; overflow-x: hidden;
+    transition: background 0.35s, color 0.35s;
+  }
+
+  /* NAV */
+  .main-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 64px;
+    background: var(--nav-bg); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.35s, border-color 0.35s;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 0px;
+    text-decoration: none; flex-shrink: 0; padding: 0 4px;
+  }
+  .nav-logo-icon {
+    width: 72px; height: 72px; border-radius: 18px;
+    background: transparent; display: flex; align-items: center; justify-content: center;
+    transition: background 0.35s; flex-shrink: 0;
+  }
+  .nav-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .nav-logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .nav-logo-name {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 17px; font-weight: 500; letter-spacing: -0.01em;
+    color: var(--text-1); transition: color 0.35s;
+  }
+  .nav-logo-name .teal { color: #1D9E8A; }
+  .nav-logo-tagline {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 9.5px; font-weight: 300; color: var(--text-4);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color 0.35s;
+  }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+
+  .theme-toggle {
+    width: 46px; height: 26px; border-radius: 100px; border: 1.5px solid var(--border-2);
+    background: var(--toggle-bg); cursor: pointer; position: relative;
+    transition: background 0.35s, border-color 0.35s; flex-shrink: 0;
+    display: flex; align-items: center; padding: 0 3px;
+  }
+  .theme-toggle-knob {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--toggle-knob); transition: transform 0.3s cubic-bezier(.4,0,.2,1), background 0.35s;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; line-height: 1;
+  }
+  [data-theme="dark"] .theme-toggle-knob { transform: translateX(20px); }
+
+  .nav-cta {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--green-500); color: #fff; text-decoration: none;
+    padding: 8px 18px; border-radius: 100px; font-size: 13px; font-weight: 500;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: var(--green-600); transform: translateY(-1px); }
+  .nav-cta svg { width: 16px; height: 16px; fill: #fff; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; padding-top: 64px;
+    display: grid; grid-template-columns: 1fr 1fr; align-items: stretch;
+  }
+  .hero-left {
+    padding: 5rem 3rem 5rem 4rem;
+    display: flex; flex-direction: column; justify-content: center;
+    animation: fadeUp 0.7s ease both 0.1s;
+  }
+  .hero-brand-title {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(3rem, 5.5vw, 5rem);
+    font-weight: 400; color: var(--text-1); line-height: 1;
+    margin-bottom: 1.25rem; transition: color 0.35s;
+  }
+  .hero-brand-title .accent { color: var(--green-500); font-style: italic; transition: color 0.35s; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--green-50); border: 1px solid var(--green-100);
+    color: var(--green-600); font-size: 12px; font-weight: 500;
+    padding: 5px 12px; border-radius: 100px; margin-bottom: 1.25rem;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    transition: background 0.35s, border-color 0.35s, color 0.35s;
+    width: fit-content;
+  }
+  .hero-tag::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green-500); animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero h1 {
+    font-family: 'DM Serif Display', Georgia, serif;
+    font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+    font-weight: 400; line-height: 1.2; color: var(--text-1);
+    margin-bottom: 1rem; transition: color 0.35s;
+  }
+  .hero h1 em { font-style: italic; color: var(--green-500); }
+  .hero-sub {
+    font-size: 16px; font-weight: 300; color: var(--text-3);
+    line-height: 1.75; margin-bottom: 2rem; max-width: 440px; transition: color 0.35s;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--green-500); color: #fff; text-decoration: none;
+    padding: 14px 28px; border-radius: 100px; font-size: 15px; font-weight: 500;
+    box-shadow: 0 4px 20px rgba(29,158,111,0.3);
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--green-600); transform: translateY(-2px); }
+  .btn-primary svg { width: 18px; height: 18px; fill: #fff; }
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--text-3); text-decoration: none; font-size: 14px; transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--text-1); }
+  .btn-ghost svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  .hero-right {
+    min-height: 100vh; position: relative; background: #084D34;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 7rem 2.5rem 3rem; gap: 2.5rem;
+    animation: fadeIn 0.9s ease both 0.3s;
+  }
+  .hero-right-inner { position: absolute; inset: 0; z-index: 0; background: linear-gradient(135deg, #084D34 0%, #042D1F 100%); }
+  .hero-pattern {
+    position: absolute; inset: 0; opacity: 0.05; z-index: 0;
+    background-image: repeating-linear-gradient(45deg, #fff 0px, #fff 1px, transparent 0px, transparent 50%);
+    background-size: 32px 32px;
+  }
+  .hero-card {
+    position: relative; z-index: 1;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px; padding: 1.5rem 2rem; width: 100%; max-width: 360px;
+    animation: fadeUp 0.8s ease both 0.6s;
+  }
+  .hero-card-label { font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+  .hero-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+  .hero-stat { text-align: center; padding: 0.5rem 0.25rem; }
+  .hero-stat + .hero-stat { border-left: 1px solid rgba(255,255,255,0.1); }
+  .hero-stat-num { font-family: 'DM Serif Display', Georgia, serif; font-size: 1.8rem; color: #fff; line-height: 1; }
+  .hero-stat-lbl { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 4px; line-height: 1.4; }
+  .hero-icons-float { position: relative; z-index: 1; width: 200px; height: 200px; flex-shrink: 0; }
+  .float-icon {
+    position: absolute; width: 50px; height: 50px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 15px; display: flex; align-items: center; justify-content: center;
+  }
+  .float-icon svg { width: 22px; height: 22px; stroke: rgba(255,255,255,0.65); fill: none; stroke-width: 1.5; }
+  .fi-1 { top: 0; left: 50%; transform: translateX(-50%); animation: float1 4s ease-in-out infinite; }
+  .fi-2 { top: 50%; right: 0; transform: translateY(-50%); animation: float2 4.5s ease-in-out infinite 0.5s; }
+  .fi-3 { bottom: 0; left: 50%; transform: translateX(-50%); animation: float3 4s ease-in-out infinite 1s; }
+  .fi-4 { top: 50%; left: 0; transform: translateY(-50%); animation: float2 4.5s ease-in-out infinite 1.5s; }
+  @keyframes float1 { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-8px)} }
+  @keyframes float2 { 0%,100%{transform:translateY(-50%) translateX(0)} 50%{transform:translateY(-50%) translateX(6px)} }
+  @keyframes float3 { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+  /* SECTIONS */
+  section { padding: 6rem 4rem; }
+  .section-tag {
+    display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--green-500); margin-bottom: 0.75rem; transition: color 0.35s;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', Georgia, serif; font-size: clamp(1.9rem, 3vw, 2.8rem);
+    font-weight: 400; line-height: 1.2; color: var(--text-1); margin-bottom: 1rem; transition: color 0.35s;
+  }
+  .section-title em { font-style: italic; color: var(--green-500); }
+  .section-sub { font-size: 16px; font-weight: 300; color: var(--text-3); max-width: 480px; line-height: 1.75; transition: color 0.35s; }
+
+  /* STEPS */
+  .steps-section { background: var(--steps-bg); transition: background 0.35s; }
+  .steps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
+  .step-card {
+    display: flex; gap: 1.25rem; padding: 1.75rem;
+    border: 1px solid var(--border); border-radius: 14px; background: var(--bg);
+    opacity: 0; transform: translateY(20px);
+    transition: background 0.35s, border-color 0.35s;
+  }
+  .step-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s, box-shadow 0.2s, background 0.35s; }
+  .step-card:hover { border-color: var(--green-100); box-shadow: var(--shadow-md); }
+  .step-num {
+    min-width: 40px; height: 40px; border-radius: 12px;
+    background: var(--green-50); border: 1px solid var(--green-100);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', Georgia, serif; font-size: 1.1rem; color: var(--green-600);
+    transition: background 0.35s, border-color 0.35s, color 0.35s;
+  }
+  .step-body h3 { font-size: 15px; font-weight: 500; color: var(--text-1); margin-bottom: 6px; transition: color 0.35s; }
+  .step-body p { font-size: 14px; font-weight: 300; color: var(--text-3); line-height: 1.65; transition: color 0.35s; }
+
+  /* BENEFITS */
+  .benefits-section { background: var(--bg); transition: background 0.35s; }
+  .benefits-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
+  .benefits-list { display: flex; flex-direction: column; gap: 1rem; }
+  .benefit-item {
+    display: flex; gap: 1rem; align-items: flex-start; padding: 1.25rem 1.5rem;
+    background: var(--card-bg); border-radius: 14px; border: 1px solid var(--border);
+    opacity: 0; transform: translateX(-16px);
+    transition: background 0.35s, border-color 0.35s;
+  }
+  .benefit-item.visible { opacity: 1; transform: translateX(0); transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s, box-shadow 0.2s, background 0.35s; }
+  .benefit-item:hover { border-color: var(--green-100); box-shadow: var(--shadow); }
+  .benefit-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: var(--green-50); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: background 0.35s;
+  }
+  .benefit-icon svg { width: 18px; height: 18px; stroke: var(--green-500); fill: none; stroke-width: 1.75; }
+  .benefit-text h4 { font-size: 14px; font-weight: 500; color: var(--text-1); margin-bottom: 3px; transition: color 0.35s; }
+  .benefit-text p { font-size: 13px; font-weight: 300; color: var(--text-3); line-height: 1.55; transition: color 0.35s; }
+  .benefits-visual {
+    position: relative; background: #084D34; border-radius: 24px;
+    padding: 3rem; overflow: hidden; min-height: 400px; display: flex; align-items: flex-end;
+  }
+  .benefits-visual-pattern {
+    position: absolute; inset: 0; opacity: 0.05;
+    background-image: radial-gradient(circle, #fff 1px, transparent 1px); background-size: 24px 24px;
+  }
+  .quote-card {
+    position: relative; background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 1.5rem; width: 100%;
+  }
+  .quote-stars { color: #FAC755; font-size: 14px; margin-bottom: 0.75rem; letter-spacing: 2px; }
+  .quote-text { font-family: 'DM Serif Display', Georgia, serif; font-size: 1.05rem; color: #fff; line-height: 1.55; font-style: italic; margin-bottom: 1rem; }
+  .quote-author { font-size: 12px; color: rgba(255,255,255,0.45); }
+  .quote-author strong { color: rgba(255,255,255,0.8); font-weight: 500; display: block; margin-bottom: 2px; }
+  .floating-badge {
+    position: absolute; top: 2rem; right: 2rem;
+    background: #2AAF7A; border-radius: 8px; padding: 10px 14px; text-align: center;
+    animation: float1 3.5s ease-in-out infinite;
+  }
+  .floating-badge .num { font-family: 'DM Serif Display', Georgia, serif; font-size: 1.6rem; color: #fff; line-height: 1; }
+  .floating-badge .lbl { font-size: 10px; color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+  /* PRICING */
+  .pricing-section { background: var(--steps-bg); transition: background 0.35s; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .price-card {
+    border: 1px solid var(--border); border-radius: 14px; padding: 2rem 1.75rem; background: var(--price-bg);
+    opacity: 0; transform: translateY(20px);
+    transition: background 0.35s, border-color 0.35s;
+  }
+  .price-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s, box-shadow 0.2s, background 0.35s; }
+  .price-card:hover { border-color: var(--border-2); box-shadow: var(--shadow-md); transform: translateY(-4px); }
+  .price-card.featured { background: #042D1F; border-color: #084D34; box-shadow: 0 8px 40px rgba(4,45,31,0.35); }
+  .price-card.featured:hover { box-shadow: 0 16px 56px rgba(4,45,31,0.45); }
+  .price-badge { display: inline-block; background: #2AAF7A; color: #fff; font-size: 10px; font-weight: 500; padding: 3px 10px; border-radius: 100px; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .price-name { font-size: 12px; font-weight: 500; color: var(--text-3); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.06em; transition: color 0.35s; }
+  .price-card.featured .price-name { color: rgba(255,255,255,0.45); }
+  .price-amount { font-family: 'DM Serif Display', Georgia, serif; font-size: 2.4rem; color: var(--text-1); line-height: 1; margin-bottom: 0.25rem; transition: color 0.35s; }
+  .price-card.featured .price-amount { color: #fff; }
+  .price-from { font-size: 12px; color: var(--text-4); margin-bottom: 1.5rem; transition: color 0.35s; }
+  .price-card.featured .price-from { color: rgba(255,255,255,0.35); }
+  .price-divider { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; transition: border-color 0.35s; }
+  .price-card.featured .price-divider { border-color: rgba(255,255,255,0.08); }
+  .price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.75rem; }
+  .price-features li { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; font-weight: 300; color: var(--text-3); transition: color 0.35s; }
+  .price-card.featured .price-features li { color: rgba(255,255,255,0.6); }
+  .price-features li::before { content: ''; width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; background: var(--green-50) url("data:image/svg+xml,%3Csvg width='8' height='6' viewBox='0 0 8 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 3L3 5L7 1' stroke='%230F7A54' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center; border: 1px solid var(--green-100); transition: background-color 0.35s, border-color 0.35s; }
+  .price-card.featured .price-features li::before { background-color: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); background-image: url("data:image/svg+xml,%3Csvg width='8' height='6' viewBox='0 0 8 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 3L3 5L7 1' stroke='%2380E8B8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+  .price-btn {
+    display: block; text-align: center; text-decoration: none; padding: 12px; border-radius: 100px;
+    font-size: 14px; font-weight: 500; border: 1.5px solid var(--border-2); color: var(--text-2);
+    transition: background 0.2s, border-color 0.2s, color 0.35s;
+  }
+  .price-btn:hover { background: var(--bg-3); }
+  .price-btn.primary { background: #2AAF7A; border-color: #2AAF7A; color: #fff; }
+  .price-btn.primary:hover { background: var(--green-600); border-color: var(--green-600); }
+
+  /* CTA */
+  .cta-section {
+    background: #042D1F; padding: 6rem 4rem; text-align: center; position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; inset: 0; opacity: 0.04;
+    background-image: repeating-linear-gradient(45deg, #fff 0, #fff 1px, transparent 0, transparent 50%);
+    background-size: 40px 40px;
+  }
+  .cta-section .section-tag { color: rgba(255,255,255,0.35); }
+  .cta-section .section-title { color: #fff; margin: 0 auto 1rem; max-width: 560px; }
+  .cta-section .section-sub { color: rgba(255,255,255,0.45); margin: 0 auto 2.5rem; }
+  .cta-wa {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: #25D366; color: #fff; text-decoration: none;
+    padding: 16px 36px; border-radius: 100px; font-size: 16px; font-weight: 500;
+    animation: pulse 3s ease-in-out infinite;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .cta-wa:hover { background: #1da851; transform: translateY(-2px); }
+  .cta-wa svg { width: 22px; height: 22px; fill: #fff; }
+  @keyframes pulse { 0%,100%{box-shadow:0 4px 24px rgba(37,211,102,0.25)} 50%{box-shadow:0 8px 40px rgba(37,211,102,0.5)} }
+  .cta-note { margin-top: 1.25rem; font-size: 13px; color: rgba(255,255,255,0.3); position: relative; }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg-3); padding: 2rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem; border-top: 1px solid var(--border);
+    transition: background 0.35s, border-color 0.35s;
+  }
+  .footer-brand { display: flex; align-items: center; gap: 8px; color: var(--text-4); font-size: 13px; transition: color 0.35s; }
+  .footer-brand-icon { width: 24px; height: 24px; border-radius: 6px; background: var(--green-500); display: flex; align-items: center; justify-content: center; transition: background 0.35s; }
+  .footer-brand-icon svg { width: 12px; height: 12px; fill: #fff; }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a { color: var(--text-4); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--text-1); }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .hero-left { padding: 5rem 2.5rem 5rem 3rem; }
+    .benefits-layout { gap: 2.5rem; }
+  }
+  @media (max-width: 900px) {
+    .main-nav { padding: 0 1.5rem; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 3rem 1.5rem 2.5rem; }
+    .hero-right { min-height: auto; padding: 3rem 1.5rem; flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    .hero-icons-float { width: 160px; height: 160px; }
+    .float-icon { width: 40px; height: 40px; }
+    .float-icon svg { width: 18px; height: 18px; }
+    .hero-card { max-width: 100%; }
+    section { padding: 3.5rem 1.5rem; }
+    .steps-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .benefits-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .pricing-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .cta-section { padding: 3.5rem 1.5rem; }
+    footer { padding: 1.75rem 1.5rem; flex-direction: column; align-items: flex-start; }
+    .footer-links { flex-wrap: wrap; gap: 1rem; }
+  }
+  @media (max-width: 600px) {
+    .main-nav { padding: 0 1rem; }
+    .nav-logo { font-size: 16px; }
+    .nav-cta span { display: none; }
+    .hero-left { padding: 2.5rem 1rem 2rem; }
+    .hero-brand-title { font-size: clamp(2.4rem, 9vw, 3.5rem); }
+    .hero h1 { font-size: clamp(1.2rem, 5vw, 1.6rem); }
+    .hero-right { padding: 2rem 1rem; }
+    section { padding: 2.5rem 1rem; }
+    .section-title { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+    .benefits-visual { padding: 2rem 1.25rem; min-height: 300px; }
+    .price-card { padding: 1.5rem 1.25rem; }
+    .cta-wa { width: 100%; justify-content: center; }
+    .footer-links { gap: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="main-nav">
+  <a href="#" class="nav-logo" aria-label="Armo tu Mueble — inicio">
+    <div class="nav-logo-icon">
+      <img src="content.webp" alt="Home Homeworking" class="nav-logo-img">
+    </div>
+    <div class="nav-logo-text">
+      <span class="nav-logo-name">Armo tu <span class="teal">Mueble</span></span>
+      <span class="nav-logo-tagline">Muebles y accesorios de trabajo</span>
+    </div>
+  </a>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo oscuro/claro">
+      <div class="theme-toggle-knob" id="toggleIcon">☀️</div>
+    </button>
+    <a href="https://wa.me/56912345678?text=Hola!%20Quiero%20cotizar%20el%20armado%20de%20muebles" class="nav-cta">
+      <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2m.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31C4.5 14.81 4.13 13.38 4.13 11.91c0-4.54 3.7-8.24 8.24-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.86-.87 2.07 0 1.22.89 2.39 1 2.56.14.17 1.76 2.67 4.25 3.73.59.27 1.05.42 1.41.53.59.19 1.13.16 1.56.1.48-.07 1.46-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.07-.1-.23-.16-.48-.27-.25-.14-1.47-.74-1.7-.82-.22-.08-.39-.12-.56.12-.17.25-.64.82-.78.99-.15.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.11-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.43-.14 0-.3-.01-.47-.01"/></svg>
+      <span>Cotizar ahora</span>
+    </a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-brand-title">Armo tu <span class="accent">Mueble</span></p>
+    <div class="hero-tag">Servicio a domicilio · RM</div>
+    <h1>Armado de muebles<br><em>sin estrés,</em><br>sin herramientas</h1>
+    <p class="hero-sub">Técnicos especializados llegan a tu hogar u oficina y dejan todo instalado, nivelado y listo para usar. Tú solo disfruta el resultado.</p>
+    <div class="hero-actions">
+      <a href="https://wa.me/56912345678?text=Hola!%20Quiero%20cotizar%20el%20servicio%20de%20armado%20de%20muebles" class="btn-primary">
+        <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2m.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31C4.5 14.81 4.13 13.38 4.13 11.91c0-4.54 3.7-8.24 8.24-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.86-.87 2.07 0 1.22.89 2.39 1 2.56.14.17 1.76 2.67 4.25 3.73.59.27 1.05.42 1.41.53.59.19 1.13.16 1.56.1.48-.07 1.46-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.07-.1-.23-.16-.48-.27-.25-.14-1.47-.74-1.7-.82-.22-.08-.39-.12-.56.12-.17.25-.64.82-.78.99-.15.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.11-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.43-.14 0-.3-.01-.47-.01"/></svg>
+        Cotizar por WhatsApp
+      </a>
+      <a href="#como-funciona" class="btn-ghost">
+        Ver cómo funciona
+        <svg viewBox="0 0 16 16"><path d="M8 3v10M3 8l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-inner"></div>
+    <div class="hero-pattern"></div>
+    <div class="hero-icons-float">
+      <div class="float-icon fi-1"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke-linecap="round" stroke-linejoin="round"/><polyline points="9 22 9 12 15 12 15 22" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="float-icon fi-2"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="12" x2="12" y2="16" stroke-linecap="round"/><line x1="10" y1="14" x2="14" y2="14" stroke-linecap="round"/></svg></div>
+      <div class="float-icon fi-3"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="float-icon fi-4"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-linecap="round"/><polyline points="12 6 12 12 16 14" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-label">Resultados del servicio</div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num">+500</div><div class="hero-stat-lbl">muebles<br>armados</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">4.9</div><div class="hero-stat-lbl">calificación<br>promedio</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">&lt;1h</div><div class="hero-stat-lbl">respuesta<br>WA</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="steps-section" id="como-funciona">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-tag">Proceso simple</div>
+    <h2 class="section-title">De la caja a tu escritorio<br>en <em>4 pasos</em></h2>
+    <p class="section-sub">Sin complicaciones, sin herramientas, sin instrucciones confusas. Nos encargamos de todo.</p>
+    <div class="steps-grid">
+      <div class="step-card" data-animate><div class="step-num">1</div><div class="step-body"><h3>Escríbenos por WhatsApp</h3><p>Cuéntanos qué muebles necesitas armar, cuántas piezas y tu ubicación. Respondemos en menos de una hora.</p></div></div>
+      <div class="step-card" data-animate style="transition-delay:0.1s;"><div class="step-num">2</div><div class="step-body"><h3>Recibe tu cotización al instante</h3><p>Te enviamos el precio exacto, sin sorpresas. Coordinamos el día y la hora que mejor te acomode.</p></div></div>
+      <div class="step-card" data-animate style="transition-delay:0.2s;"><div class="step-num">3</div><div class="step-body"><h3>Nuestro técnico llega puntual</h3><p>Con todas las herramientas necesarias. Armamos escritorios, sillas, cajoneras, estantes y más.</p></div></div>
+      <div class="step-card" data-animate style="transition-delay:0.3s;"><div class="step-num">4</div><div class="step-body"><h3>Entrega impecable y sin rastro</h3><p>Retiramos todo el packaging y embalaje. Tu espacio queda listo para trabajar desde el primer momento.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="benefits-section">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-tag">¿Por qué elegirnos?</div>
+    <h2 class="section-title">El servicio que merece<br>tu <em>espacio de trabajo</em></h2>
+    <div class="benefits-layout">
+      <div class="benefits-list">
+        <div class="benefit-item" data-animate><div class="benefit-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14" stroke-linecap="round" stroke-linejoin="round"/><polyline points="22 4 12 14.01 9 11.01" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="benefit-text"><h4>Garantía de calidad total</h4><p>Si algo no quedó perfecto, volvemos sin costo adicional hasta que estés 100% satisfecho.</p></div></div>
+        <div class="benefit-item" data-animate style="transition-delay:0.1s;"><div class="benefit-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="benefit-text"><h4>Técnicos certificados y con experiencia</h4><p>Personal capacitado, con historial verificado y uniforme identificado para tu tranquilidad.</p></div></div>
+        <div class="benefit-item" data-animate style="transition-delay:0.2s;"><div class="benefit-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="benefit-text"><h4>Puntualidad garantizada</h4><p>Llega a la hora acordada. Si hay demora, te avisamos con anticipación. Tu tiempo nos importa.</p></div></div>
+        <div class="benefit-item" data-animate style="transition-delay:0.3s;"><div class="benefit-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23" stroke-linecap="round"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="benefit-text"><h4>Precio transparente, sin cobros ocultos</h4><p>El precio acordado es el final. Sin costos de traslado ni herramientas adicionales.</p></div></div>
+        <div class="benefit-item" data-animate style="transition-delay:0.4s;"><div class="benefit-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="1" stroke-linecap="round" stroke-linejoin="round"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div class="benefit-text"><h4>Cobertura en toda la Región Metropolitana</h4><p>Llegamos a cualquier comuna de Santiago. Domicilios, oficinas y empresas.</p></div></div>
+      </div>
+      <div class="benefits-visual">
+        <div class="benefits-visual-pattern"></div>
+        <div class="floating-badge"><div class="num">4.9★</div><div class="lbl">Clientes felices</div></div>
+        <div class="quote-card">
+          <div class="quote-stars">★★★★★</div>
+          <p class="quote-text">"Armaron mi escritorio y estantería en menos de una hora. Todo quedó perfectamente nivelado y se llevaron hasta el último trozo de cartón."</p>
+          <div class="quote-author"><strong>Valentina M.</strong>Cliente · Providencia, Santiago</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-section">
+  <div style="max-width:1100px; margin:0 auto;">
+    <div class="section-tag">Tarifas</div>
+    <h2 class="section-title">Precios <em>simples</em> y honestos</h2>
+    <p class="section-sub">Elige el servicio que necesitas. Sin costos de visita ni cobros extra por herramientas.</p>
+    <div class="pricing-grid">
+      <div class="price-card" data-animate>
+        <div class="price-name">Básico</div><div class="price-amount">$19.990</div><div class="price-from">por mueble · desde</div>
+        <hr class="price-divider">
+        <ul class="price-features"><li>1 mueble mediano (escritorio, cajonera)</li><li>Herramientas incluidas</li><li>Retiro de embalaje</li><li>Garantía 30 días</li></ul>
+        <a href="https://wa.me/56912345678?text=Hola!%20Me%20interesa%20el%20plan%20b%C3%A1sico%20de%20armado" class="price-btn">Cotizar ahora</a>
+      </div>
+      <div class="price-card featured" data-animate style="transition-delay:0.15s;">
+        <div class="price-badge">Más popular</div>
+        <div class="price-name">Home Office</div><div class="price-amount">$39.990</div><div class="price-from">por visita · hasta 3 muebles</div>
+        <hr class="price-divider">
+        <ul class="price-features"><li>Hasta 3 muebles en una visita</li><li>Escritorios, sillas y estantes</li><li>Herramientas incluidas</li><li>Retiro completo de embalaje</li><li>Garantía extendida 60 días</li><li>Atención prioritaria WhatsApp</li></ul>
+        <a href="https://wa.me/56912345678?text=Hola!%20Me%20interesa%20el%20plan%20Home%20Office%20de%20armado" class="price-btn primary">Cotizar ahora</a>
+      </div>
+      <div class="price-card" data-animate style="transition-delay:0.3s;">
+        <div class="price-name">Empresa</div><div class="price-amount">Cotizar</div><div class="price-from">según cantidad · personalizado</div>
+        <hr class="price-divider">
+        <ul class="price-features"><li>Sin límite de muebles</li><li>Equipo de 2+ técnicos</li><li>Coordinación con encargado</li><li>Factura empresa disponible</li><li>Soporte post-instalación</li><li>Garantía 90 días</li></ul>
+        <a href="https://wa.me/56912345678?text=Hola!%20Soy%20empresa%20y%20quiero%20cotizar%20armado%20masivo" class="price-btn">Solicitar cotización</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div style="position:relative; max-width:600px; margin:0 auto;">
+    <div class="section-tag">¿Listo para empezar?</div>
+    <h2 class="section-title">Tu espacio ideal<br>a un mensaje de distancia</h2>
+    <p class="section-sub">Escríbenos hoy y agenda tu visita. Respondemos en menos de una hora, de lunes a sábado.</p>
+    <a href="https://wa.me/56912345678?text=Hola!%20Quiero%20cotizar%20el%20servicio%20de%20armado%20de%20Armo%20tu%20Mueble" class="cta-wa">
+      <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2m.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31C4.5 14.81 4.13 13.38 4.13 11.91c0-4.54 3.7-8.24 8.24-8.24M8.53 7.33c-.16 0-.43.06-.66.31-.22.25-.87.86-.87 2.07 0 1.22.89 2.39 1 2.56.14.17 1.76 2.67 4.25 3.73.59.27 1.05.42 1.41.53.59.19 1.13.16 1.56.1.48-.07 1.46-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.07-.1-.23-.16-.48-.27-.25-.14-1.47-.74-1.7-.82-.22-.08-.39-.12-.56.12-.17.25-.64.82-.78.99-.15.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.11-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.43-.14 0-.3-.01-.47-.01"/></svg>
+      WhatsApp +56 9 1234 5678
+    </a>
+    <p class="cta-note">Lunes a sábado · 9:00 – 18:00 hrs · Respuesta en menos de 1 hora · Sin costo de cotización</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <div class="footer-brand-icon"><svg viewBox="0 0 16 16"><path d="M2 5h12v8a1 1 0 01-1 1H3a1 1 0 01-1-1V5zm0 0l1.5-3h9L14 5M6 10h4"/></svg></div>
+    © 2025 Armo tu Mueble · Todos los derechos reservados
+  </div>
+  <nav class="footer-links">
+    <a href="#">Inicio</a>
+    <a href="#">Muebles</a>
+    <a href="#">Servicio de armado</a>
+    <a href="#">Contacto</a>
+  </nav>
+</footer>
+
+<script>
+  const html = document.documentElement;
+  const btn = document.getElementById('themeToggle');
+  const icon = document.getElementById('toggleIcon');
+
+  const saved = localStorage.getItem('atm-theme') || 'light';
+  html.setAttribute('data-theme', saved);
+  icon.textContent = saved === 'dark' ? '🌙' : '☀️';
+
+  btn.addEventListener('click', () => {
+    const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('atm-theme', next);
+    icon.textContent = next === 'dark' ? '🌙' : '☀️';
+  });
+
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
