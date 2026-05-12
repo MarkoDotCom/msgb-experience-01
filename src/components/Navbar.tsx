@@ -20,7 +20,7 @@ const DEFAULT_LINKS: NavLink[] = [
 
 export function Navbar({ name, subtitle, isDark, onToggleTheme, links = DEFAULT_LINKS }: NavbarProps) {
   const [activeSection, setActiveSection] = useState('inicio')
-  const [, setMobileOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -43,7 +43,7 @@ export function Navbar({ name, subtitle, isDark, onToggleTheme, links = DEFAULT_
         {name} <span className="nav-brand-dot" /> {subtitle}
       </span>
 
-      <div className="nav-links" id="nav-links">
+      <div className={`nav-links${mobileOpen ? ' open' : ''}`} id="nav-links">
         {links.map(({ href, label }) => (
           <a
             key={href}
@@ -65,11 +65,11 @@ export function Navbar({ name, subtitle, isDark, onToggleTheme, links = DEFAULT_
           <div className="theme-toggle-knob">{isDark ? '🌙' : '☀️'}</div>
         </button>
         <button
-          className="nav-toggle"
+          className={`nav-toggle${mobileOpen ? ' open' : ''}`}
           onClick={() => setMobileOpen(o => !o)}
           aria-label="Abrir menú"
         >
-          ☰
+          <span /><span /><span />
         </button>
       </div>
     </nav>

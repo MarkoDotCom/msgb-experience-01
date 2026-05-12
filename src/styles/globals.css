@@ -131,8 +131,20 @@ body {
 
 .nav-toggle {
   display: none; background: none; border: none;
-  font-size: 22px; cursor: pointer; color: var(--text-1); padding: 4px;
+  cursor: pointer; padding: 6px; width: 36px; height: 36px;
+  flex-direction: column; justify-content: center; gap: 5px;
+  border-radius: 8px; transition: background 0.2s;
 }
+.nav-toggle:hover { background: var(--bg-3); }
+.nav-toggle span {
+  display: block; width: 20px; height: 2px;
+  background: var(--text-1); border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 /* ===== HERO ===== */
 .hero {
@@ -462,7 +474,15 @@ footer a:hover { color: var(--accent-dark); }
 @media (max-width: 900px) {
   .main-nav { padding: 0 1.5rem; }
   .nav-links { display: none; }
-  .nav-toggle { display: block; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: var(--nav-bg); backdrop-filter: blur(14px);
+    padding: 1rem 1.5rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    gap: 0.25rem;
+  }
+  .nav-toggle { display: flex; }
 
   .hero { grid-template-columns: 1fr; }
   .hero-right { min-height: 280px; padding: 2.5rem 1.5rem; }
