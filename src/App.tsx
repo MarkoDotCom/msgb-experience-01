@@ -18,14 +18,14 @@ const HERO_STATS = [
 
 const EXPERIENCE = [
   {
-    title: 'Backend Senior — Ingeniero de software',
+    title: 'Backend Semi Senior — Ingeniero de software',
     company: 'Americar • Dic 2025 – Abr 2026',
     period: 'Consultoría automotriz',
     description: 'Ciclo completo de desarrollo en arquitectura de microservicios multicliente (10 servicios en capas Dictionary, BFF, CRM, Core e Integration). Implementé modelo híbrido de tenancy, integraciones bidireccionales con Salesforce CRM y autenticación vía Apigee. Integré eventos Kafka para flujos de facturación y posventa. Clientes: MG, Gildemeister, Toyota, Ford y Astara.',
     tags: ['TypeScript', 'Java', 'Spring Boot', 'Kafka', 'Salesforce', 'Apigee', 'SQL'],
   },
   {
-    title: 'Full Stack Senior — Ingeniero de software',
+    title: 'Full Stack Semi Senior — Ingeniero de software',
     company: 'Sii Group • Nov 2025 – Feb 2026',
     period: 'Consultoría energética',
     description: 'Rediseñé el sistema de ingreso de centrales eléctricas para Generadora Metropolitana: reemplacé una arquitectura rígida por un motor de formularios dinámicos configurables desde panel de administración, reduciendo el tiempo de onboarding de 6 semanas a configuración inmediata.',
@@ -118,7 +118,7 @@ function App() {
         <Hero
           name="Marco"
           nameAccent="González"
-          role="Senior Full Stack Developer"
+          role="Full Stack Developer"
           tagline="6+ años diseñando y entregando soluciones de software en sectores automotriz, minería, logística y sustentabilidad. Arquitecturas de microservicios, integraciones empresariales y migraciones a producción."
           email="msgb.labor@gmail.com"
           linkedin="linkedin.com/in/msgb"
