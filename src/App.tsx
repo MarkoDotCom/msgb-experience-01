@@ -125,6 +125,13 @@ function App() {
           github="github.com/MarkoDotCom"
           phone="(+56) 9 4092 0875"
           location="Santiago, Chile"
+          images={[
+            '/msgb-experience-01/hero/1.png',
+            '/msgb-experience-01/hero/2.png',
+            '/msgb-experience-01/hero/3.png',
+            '/msgb-experience-01/hero/4.png',
+            '/msgb-experience-01/hero/5.png',
+          ]}
           stats={HERO_STATS}
         />
 

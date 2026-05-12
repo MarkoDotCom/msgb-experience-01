@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import EmailIcon from '@mui/icons-material/EmailRounded'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import GitHubIcon from '@mui/icons-material/GitHub'
@@ -16,7 +17,7 @@ interface HeroProps {
   github: string
   location: string
   phone?: string
-  avatar?: string
+  images?: string[]
   stats?: Stat[]
 }
 
@@ -24,7 +25,17 @@ function getInitials(name: string) {
   return name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase()
 }
 
-export function Hero({ name, nameAccent, role, tagline, email, linkedin, github, location, phone, avatar, stats }: HeroProps) {
+export function Hero({ name, nameAccent, role, tagline, email, linkedin, github, location, phone, images, stats }: HeroProps) {
+  const [current, setCurrent] = useState(0)
+
+  useEffect(() => {
+    if (!images || images.length < 2) return
+    const timer = setInterval(() => {
+      setCurrent(i => (i + 1) % images.length)
+    }, 3000)
+    return () => clearInterval(timer)
+  }, [images])
+
   return (
     <section id="inicio" className="hero">
       {/* Columna izquierda */}
@@ -47,8 +58,15 @@ export function Hero({ name, nameAccent, role, tagline, email, linkedin, github,
         <div className="hero-pattern" />
 
         <div className="hero-avatar-wrap">
-          {avatar
-            ? <img src={avatar} alt={`${name} ${nameAccent}`} />
+          {images && images.length > 0
+            ? images.map((src, i) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt={`${name} ${nameAccent}`}
+                  className={`hero-slide${i === current ? ' active' : ''}`}
+                />
+              ))
             : <span className="hero-avatar-initials">{getInitials(`${name} ${nameAccent}`)}</span>
           }
         </div>
